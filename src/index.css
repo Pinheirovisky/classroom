@@ -43,6 +43,10 @@ span {
 	color: rgb(6, 89, 237);
 }
 
+.mark {
+	color: rgb(29 51 88 / 95%);
+}
+
 input {
 	margin-left: 5px;
 }

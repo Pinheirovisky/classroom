@@ -22,7 +22,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <div className="main">
-        <h1>WTP</h1>
+        <h1>Wiser <span className="mark">Teaching</span> Platform</h1>
         <label htmlFor="students">
           Quantidade de alunos
         <input type="string" name="students" id="students" value={inputValue} onChange={e => setInputValue(e.target.value)} />
