@@ -3,18 +3,19 @@ import './App.css';
 
 import { main } from './helpers/index.js'
 import { parseDay } from './helpers/strings.js'
+import { SchedulesResult } from './protocols/response';
 
 const App: React.FC = () => {
 
   const [inputValue, setInputValue] = useState("0")
 
-  const [result, setResult] = useState(null)
+  const [result, setResult] = useState<SchedulesResult | null>(null)
 
   const handleSubmit = (): void => {
 
     const value = parseInt(inputValue, 10)
 
-    const response = main(value)
+    const response: SchedulesResult = main(value)
 
     return setResult(response)
   }
