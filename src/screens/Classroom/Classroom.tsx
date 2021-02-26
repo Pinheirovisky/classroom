@@ -3,6 +3,9 @@ import { SchedulesResult } from 'protocols/response';
 import { main } from 'backend';
 import { parseDay } from 'helpers/strings';
 
+// Templates
+import { MainTemplate } from 'templates';
+
 // Styles
 import Wrapper from './Classroom.styles';
 
@@ -20,11 +23,8 @@ const Classroom: React.FC = () => {
   };
 
   return (
-    <Wrapper>
-      <div className="main">
-        <h1>
-          Wiser <span className="mark">Teaching</span> Platform
-        </h1>
+    <MainTemplate>
+      <Wrapper>
         <label htmlFor="students">
           Quantidade de alunos
           <input
@@ -67,8 +67,8 @@ const Classroom: React.FC = () => {
             </table>
           </>
         )}
-      </div>
-    </Wrapper>
+      </Wrapper>
+    </MainTemplate>
   );
 };
 
