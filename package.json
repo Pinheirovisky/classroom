@@ -27,7 +27,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest --passWithNoTests --no-cache --runInBand",
+    "test:watch": "yarn jest -- --watch --all",
+    "test:staged": "yarn jest -- --findRelatedTests",
+    "test:ci": "yarn jest -- --coverage",
     "eject": "react-scripts eject",
     "lint": "eslint ."
   },
