@@ -8,3 +8,12 @@ export interface SchedulesResult {
   min: number;
   schedules: Schedules[];
 }
+
+export interface MockSearch {
+  alunos: Array<number>;
+  recorrencia: number;
+  periodo: string;
+  skills: Array<string>;
+  dia: Array<string>;
+  horario: Array<string>;
+}
