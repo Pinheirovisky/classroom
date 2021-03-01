@@ -1,10 +1,10 @@
 import { Student } from 'new_backend/src/contracts';
-import { Classroom, MockSearch } from 'protocols/response';
+import { Classroom } from 'protocols/response';
 import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 // Templates
 import { MainTemplate } from 'templates';
-import { main, mockListClassRooms, mock } from '../../new_backend/src/index';
+import { mock } from '../../new_backend/src/index';
 // Containers
 import Modal from './containers/Modal/Modal';
 // Styles
@@ -13,19 +13,20 @@ import Wrapper from './Search.styles';
 console.log(mock);
 
 const Search: React.FC = () => {
-  const [search, setSearch] = useState<Classroom[]>(mock);
   const [recorrencia, setRecorrencia] = useState<number>(1);
+  const [hasSubscribed, setHasSubscribed] = useState<boolean>(false);
   const [periodo, setPeriodo] = useState('manha');
-  const [weekDays, setWeekDays] = useState('segunda');
+  const [weekDays, setWeekDays] = useState('sexta');
 
-  const [entireList, setEntireList] = useState<Classroom[]>(mock);
+  const [mockAux, setMockAux] = useState<Classroom[]>(mock);
+  const [entireList, setEntireList] = useState<Classroom[]>(mockAux);
 
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleSubmit = (): void => {
     const splitedWeekDays = weekDays.split(',');
 
-    const updatedEntireList = mock.filter((item: Classroom) => {
+    const updatedEntireList = mockAux.filter((item: Classroom) => {
       return (
         item.period === periodo &&
         item.recurrence === recorrencia &&
@@ -40,7 +41,7 @@ const Search: React.FC = () => {
   const addStudent = (lineId: number) => {
     const newArray: Classroom[] = [];
 
-    entireList.map((line) => {
+    mockAux.map((line) => {
       if (line.id === lineId) {
         return newArray.push({
           ...line,
@@ -61,15 +62,13 @@ const Search: React.FC = () => {
     });
 
     setEntireList(newArray);
+    setMockAux(newArray);
   };
 
   return (
     <MainTemplate>
       <ToastContainer />
       <Wrapper modalOpen={modalOpen}>
-        {modalOpen && search && (
-          <Modal mockSearch={entireList} setModalOpen={setModalOpen} />
-        )}
         <label htmlFor="frequency">
           Frequência de dias
           <select
@@ -78,6 +77,8 @@ const Search: React.FC = () => {
             onChange={(e) => {
               if (parseInt(e.target.value) === 2) {
                 setWeekDays('segunda,quarta');
+              } else {
+                setWeekDays('sexta');
               }
               setRecorrencia(parseInt(e.target.value));
             }}
@@ -107,10 +108,6 @@ const Search: React.FC = () => {
           >
             {recorrencia === 1 ? (
               <>
-                <option value={['segunda']}>Segunda</option>
-                <option value={['terca']}>Terça</option>
-                <option value={['quarta']}>Quarta</option>
-                <option value={['quinta']}>Quinta</option>
                 <option value={['sexta']}>Sexta</option>
                 <option value={['sabado']}>Sábado</option>
               </>
@@ -152,7 +149,23 @@ const Search: React.FC = () => {
                   <tr
                     key={line.id}
                     className="line"
-                    onClick={() => addStudent(line.id)}
+                    onClick={() => {
+                      if (hasSubscribed) {
+                        toast.warning('Ja se inscreveu em uma turma', {
+                          position: 'top-right',
+                          autoClose: 5000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                        });
+
+                        return;
+                      }
+                      setHasSubscribed(true);
+                      addStudent(line.id);
+                    }}
                   >
                     <td>{line.recurrence}</td>
                     <td>{line.period}</td>
