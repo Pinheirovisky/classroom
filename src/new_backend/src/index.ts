@@ -1,0 +1,160 @@
+import * as Contracts from './contracts';
+import { mockListClassRooms } from './helpers/class-rooms';
+import { bo } from './bo';
+
+function main(
+  recurrence: Contracts.Recurrence,
+  period: Contracts.Period,
+  day: Contracts.ScheduleDays,
+  classrooms: Contracts.Classroom[],
+): Contracts.ScheduleReturn[] {
+  return bo({
+    recurrence,
+    period,
+    day,
+    classrooms,
+  });
+}
+
+const mock = [
+  {
+    id: 1,
+    students: [],
+    recurrence: 1,
+    period: 'manha',
+    skills: [
+      's1',
+      's2',
+      's3',
+      'r1',
+      'r2',
+      'r3',
+      'w1',
+      'w2',
+      'w3',
+      'l1',
+      'l2',
+      'l3',
+    ],
+    day: ['sexta'],
+    hour: ['07:00'],
+  },
+  {
+    id: 2,
+    students: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    recurrence: 1,
+    period: 'manha',
+    skills: [
+      's1',
+      's2',
+      's3',
+      'r1',
+      'r2',
+      'r3',
+      'w1',
+      'w2',
+      'w3',
+      'l1',
+      'l2',
+      'l3',
+    ],
+    day: ['sabado'],
+    hour: ['08:00'],
+  },
+  {
+    id: 4,
+    students: [],
+    recurrence: 1,
+    period: 'tarde',
+    skills: [
+      's1',
+      's2',
+      's3',
+      'r1',
+      'r2',
+      'r3',
+      'w1',
+      'w2',
+      'w3',
+      'l1',
+      'l2',
+      'l3',
+    ],
+    day: ['sabado'],
+    hour: ['08:00'],
+  },
+  {
+    id: 5,
+    students: [],
+    recurrence: 2,
+    period: 'tarde',
+    skills: [
+      's1',
+      's2',
+      's3',
+      'r1',
+      'r2',
+      'r3',
+      'w1',
+      'w2',
+      'w3',
+      'l1',
+      'l2',
+      'l3',
+    ],
+    day: ['segunda', 'quarta'],
+    hour: ['08:00'],
+  },
+  {
+    id: 6,
+    students: [],
+    recurrence: 2,
+    period: 'manha',
+    skills: [
+      's1',
+      's2',
+      's3',
+      'r1',
+      'r2',
+      'r3',
+      'w1',
+      'w2',
+      'w3',
+      'l1',
+      'l2',
+      'l3',
+    ],
+    day: ['segunda', 'quarta'],
+    hour: ['08:00'],
+  },
+  {
+    id: 7,
+    students: [],
+    recurrence: 2,
+    period: 'manha',
+    skills: [
+      's1',
+      's2',
+      's3',
+      'r1',
+      'r2',
+      'r3',
+      'w1',
+      'w2',
+      'w3',
+      'l1',
+      'l2',
+      'l3',
+    ],
+    day: ['segunda', 'quarta'],
+    hour: ['08:00'],
+  },
+] as any;
+
+// const classrooms = mockListClassRooms({
+//   numberClassroom: 20,
+// });
+
+// main(1, 'manha', ['segunda', 'quarta'], classrooms);
+
+export { mockListClassRooms, main, mock };

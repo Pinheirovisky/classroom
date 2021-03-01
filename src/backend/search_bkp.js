@@ -53,13 +53,16 @@ const parseDay = (number) => {
   switch (number) {
     case 1:
       return 'segunda';
+
     case 2:
       return 'terca';
+
     case 3:
       return 'quarta';
 
     case 4:
       return 'quinta';
+
     case 5:
       return 'sexta';
 
@@ -114,67 +117,15 @@ const mockListSalas = (numberSala = 0, numberAluno = 4) => {
 
 const days = [1, 2, 3, 4, 5];
 const hours = [7, 8];
-let qtdSala = 5;
+let qtdSala = 20;
 let qdtAluno = 7;
 let salas = mockListSalas(qtdSala, qdtAluno);
-
-// let salas = [
-//     {
-//         id: 1,
-//         alunos : listAlunos(3),
-//         recorrencia : 1,
-//         periodo : 'manha',
-//         skills : ['l1', 'l2', 'l3','s1', 's2', 's3', 'r1', 'r2', 'r3', 'w1', 'w2', 'w3'],
-//         // data : ['2021-02-']
-//         dia : ['segunda'],
-//         horario : ['10:00']
-//     },
-//     {
-//         id: 2,
-//         alunos : listAlunos(4),
-//         recorrencia : 1,
-//         periodo : 'manha',
-//         skills : ['l1', 'l2', 'l3','s1', 's2', 's3', 'r1', 'r2', 'r3', 'w1', 'w2', 'w3'],
-//         // data : ['2021-02-']
-//         dia : ['segunda'],
-//         horario : ['10:00']
-//     },
-//     {
-//         id: 3,
-//         alunos : listAlunos(11),
-//         recorrencia : 2,
-//         periodo : 'tarde',
-//         skills : ['l1', 'l2', 'l3','s1', 's2', 's3', 'r1', 'r2', 'r3', 'w1', 'w2', 'w3'],
-//         // data : ['2021-02-']
-//         dia : ['terca', 'quarta'],
-//         horario : ['10:00', '09:00']
-//     },
-//     {
-//         id: 4,
-//         alunos : listAlunos(12),
-//         recorrencia : 2,
-//         periodo : 'tarde',
-//         skills : ['l1', 'l2', 'l3','s1', 's2', 's3', 'r1', 'r2', 'r3', 'w1', 'w2', 'w3'],
-//         // data : ['2021-02-']
-//         dia : ['terca', 'quarta'],
-//         horario : ['10:00', '09:00']
-//     },
-//     {
-//         id: 5,
-//         alunos : listAlunos(11),
-//         recorrencia : 1,
-//         periodo : 'tarde',
-//         skills : ['l1', 'l2', 'l3','s1', 's2', 's3', 'r1', 'r2', 'r3', 'w1', 'w2', 'w3'],
-//         // data : ['2021-02-']
-//         dia : ['segunda'],
-//         horario : ['09:00']
-//     }
-// ]
 
 function main(recorrencia, periodo, dia) {
   const salasPossiveis = possiveisSalas(recorrencia, periodo, dia);
   const salasFiltradas = filtrarSalas(salasPossiveis);
   const value = salasRelevantesParaNegocio(salasFiltradas);
+  console.log(value);
   return value;
 }
 
@@ -224,9 +175,11 @@ function filtrarSalas(salasPossiveis) {
 }
 
 // function validarSalasMaisRelevantes(salasPosisveis) {
-//   if (salasPossiveis.length) {
-//   } else {
-//   }
+//     if(salasPossiveis.length) {
+
+//     } else {
+
+//     }
 // }
 
 //Busca as possiveis salas para o aluno baseado na recorrencia, periodo e dia;
@@ -245,7 +198,7 @@ function possiveisSalas(recorrencia, periodo, dia) {
       } else if (sala.periodo === periodo && verificarEntradaNaTurma(sala)) {
         salasLiberadas.push(sala);
       }
-    } else {
+    } else if (recorrencia === 2 && sala.recorrencia === 2) {
       if (
         sala.dia.includes(dia[0]) &&
         sala.dia.includes(dia[1]) &&
