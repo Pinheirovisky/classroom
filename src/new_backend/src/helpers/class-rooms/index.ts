@@ -2,7 +2,7 @@ import * as Contracts from '../../contracts';
 import {
   randomIntFromInterval,
   getRandomIndex,
-  getDaysFromNumberWeek,
+  randomScheduleFromDays,
 } from '../random';
 import { parseDay } from '../parse';
 import { listStudents } from '../students';
@@ -38,12 +38,12 @@ const classroom = ({
 
   const hours =
     recurrence === 2
-      ? [dayRandom['hour1'], dayRandom['hour2']]
+      ? ([dayRandom['hour1'], dayRandom['hour2']] as number[])
       : [dayRandom['hour1']];
 
   const skills = randomSkillsOrder();
 
-  const schedulesRandom = getDaysFromNumberWeek({ days });
+  const schedulesRandom = randomScheduleFromDays({ days, hours });
 
   return {
     id,
@@ -66,7 +66,6 @@ export const mockListClassRooms = ({
   numberClassroom?: number;
   numberStudentByRoom?: number;
 }): Contracts.Classroom[] => {
-  console.log('listMock');
   return Array.from(Array(numberClassroom).keys()).map((index) => {
     return classroom({ id: index, numberStudent: numberStudentByRoom });
   });

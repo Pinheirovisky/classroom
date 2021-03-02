@@ -43,9 +43,19 @@ const Wrapper = styled.div`
     }
   }
 
-  tr.selected {
-    background-color: rgb(6, 89, 237);
-    color: #fff;
+  tr {
+    &.selected {
+      background-color: rgb(6, 89, 237);
+      color: #fff;
+
+      /* &:hover {
+
+      } */
+    }
+
+    &.max {
+      background-color: tomato;
+    }
   }
 
   .line {
@@ -53,6 +63,9 @@ const Wrapper = styled.div`
     &:hover {
       background-color: #ccc;
     }
+
+    &.selected:hover {
+      background-color: rgb(6, 89, 237);
   }
 `;
 

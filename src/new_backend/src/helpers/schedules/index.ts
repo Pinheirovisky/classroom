@@ -12,18 +12,61 @@ const schedules: Array<Schedule[]> = [
     { day: 3, hour: 7, period: 'manha' },
   ],
   [
-    { day: 2, hour: 15, period: 'tarde' },
-    { day: 4, hour: 15, period: 'tarde' },
+    { day: 1, hour: 8, period: 'manha' },
+    { day: 3, hour: 8, period: 'manha' },
+  ],
+  [
+    { day: 1, hour: 13, period: 'tarde' },
+    { day: 3, hour: 13, period: 'tarde' },
+  ],
+  [
+    { day: 1, hour: 12, period: 'tarde' },
+    { day: 3, hour: 12, period: 'tarde' },
+  ],
+  [
+    { day: 1, hour: 18, period: 'noite' },
+    { day: 3, hour: 18, period: 'noite' },
+  ],
+  [
+    { day: 1, hour: 19, period: 'noite' },
+    { day: 3, hour: 19, period: 'noite' },
+  ],
+  [
+    { day: 2, hour: 7, period: 'manha' },
+    { day: 4, hour: 7, period: 'manha' },
+  ],
+  [
+    { day: 2, hour: 8, period: 'manha' },
+    { day: 4, hour: 8, period: 'manha' },
+  ],
+  [
+    { day: 2, hour: 13, period: 'tarde' },
+    { day: 4, hour: 13, period: 'tarde' },
+  ],
+  [
+    { day: 2, hour: 12, period: 'tarde' },
+    { day: 4, hour: 12, period: 'tarde' },
+  ],
+  [
+    { day: 2, hour: 18, period: 'noite' },
+    { day: 4, hour: 18, period: 'noite' },
+  ],
+  [
+    { day: 2, hour: 19, period: 'noite' },
+    { day: 4, hour: 19, period: 'noite' },
   ],
   [{ day: 5, hour: 7, period: 'manha' }],
   [{ day: 6, hour: 7, period: 'manha' }],
-  //arrumar
-  [
-    { day: 5, hour: 7, period: 'noite' },
-    { day: 6, hour: 7, period: 'noite' },
-  ],
-  [{ day: 6, hour: 7, period: 'noite' }],
-  [{ day: 4, hour: 7, period: 'tarde' }],
+  [{ day: 5, hour: 8, period: 'manha' }],
+  [{ day: 6, hour: 8, period: 'manha' }],
+  [{ day: 5, hour: 12, period: 'tarde' }],
+  [{ day: 6, hour: 12, period: 'tarde' }],
+  [{ day: 5, hour: 13, period: 'tarde' }],
+  [{ day: 6, hour: 13, period: 'tarde' }],
+  [{ day: 5, hour: 18, period: 'noite' }],
+  [{ day: 6, hour: 18, period: 'noite' }],
+  [{ day: 5, hour: 19, period: 'noite' }],
+  [{ day: 6, hour: 19, period: 'noite' }],
 ];
 
 export const sortSchedule = (

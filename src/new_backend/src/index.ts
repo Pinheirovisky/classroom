@@ -17,9 +17,11 @@ function main(
 }
 
 // let classrooms = mockListClassRooms({
-//   numberClassroom:100,
+//   numberClassroom:2,
 // });
+
+// console.log('mock', classrooms)
 
 // console.log('aqui',main(1, "manha", [ "sexta"], classrooms));
 
-export { main, mockListClassRooms };
+export { mockListClassRooms, main };

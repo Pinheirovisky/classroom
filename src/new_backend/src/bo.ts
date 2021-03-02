@@ -108,12 +108,21 @@ function formatSchedule(
   });
 }
 
-function sortByLevel(
+function sortByDate(
   classrooms: Contracts.ClassroomWithLevel[],
 ): Contracts.ClassroomWithLevel[] {
-  const sorted = classrooms.sort((a, b) => a.level - b.level);
+  const sorted = classrooms.sort((a, b) =>
+    a.actual_schedule > b.actual_schedule ? 1 : -1,
+  );
   return sorted;
 }
+
+// function sortByLevel(
+//   classrooms: Contracts.ClassroomWithLevel[]
+// ): Contracts.ClassroomWithLevel[] {
+//   const sorted = classrooms.sort((a, b) => a.level - b.level);
+//   return sorted;
+// }
 
 export function bo({
   recurrence,
@@ -128,7 +137,7 @@ export function bo({
     classrooms,
   );
   const filteredClassrooms = getFilteredClassrooms(possibleClassrooms);
-  const sortedClassrooms = sortByLevel(filteredClassrooms);
+  const sortedClassrooms = sortByDate(filteredClassrooms);
   const limitedClassrooms = limitClassrooms(sortedClassrooms);
   return limitedClassrooms;
 }

@@ -149,6 +149,7 @@ const Search: React.FC = () => {
               <tr>
                 <th>Frequência</th>
                 <th>Período</th>
+                <th>Primeiro dia</th>
                 <th>Dia da semana</th>
                 <th>Horário</th>
                 <th>Alunos</th>
@@ -160,7 +161,7 @@ const Search: React.FC = () => {
                   <tr
                     key={line.id}
                     // eslint-disable-next-line prettier/prettier
-                    className={`line ${classSelected === line.id ? 'selected' : ''}`}
+                    className={`line ${classSelected === line.id ? 'selected' : ''} ${line.students.length === 12 ? 'max' : ''}`}
                     onClick={() => handleRowClick(line.id)}
                   >
                     <td>{line.recurrence}</td>
@@ -169,6 +170,7 @@ const Search: React.FC = () => {
                         line.period === 'manha' ? polishPeriod() : line.period,
                       )}
                     </td>
+                    <td>{moment(line.actual_schedule).format('DD/MM')}</td>
                     <td>
                       {line.day.map((day, id) => (
                         <li className="td-list" key={id}>
@@ -176,7 +178,6 @@ const Search: React.FC = () => {
                         </li>
                       ))}
                     </td>
-                    {/* <td>{moment(line.schedules[0]).format('ddd - DD/mm')}</td> */}
                     <td>
                       {line.hour.map((hour, id) => (
                         <li className="td-list" key={id}>
