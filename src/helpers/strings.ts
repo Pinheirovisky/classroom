@@ -25,4 +25,9 @@ const parseDay = (number: number): Parseday => {
   }
 };
 
-export { parseDay };
+const capitalize = (word: string): string =>
+  word.charAt(0).toUpperCase() + word.slice(1);
+
+const polishPeriod = (): string => 'manhã';
+
+export { parseDay, polishPeriod, capitalize };

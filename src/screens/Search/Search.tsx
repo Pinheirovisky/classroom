@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Student } from 'new_backend/src/contracts';
 import { Classroom } from 'protocols/response';
 import { toast, ToastContainer } from 'react-toastify';
+import moment from 'moment';
 
 // Backend
 import { Recurrence, Period } from 'new_backend/src/contracts/Classroom';
@@ -13,6 +14,7 @@ import { MainTemplate } from 'templates';
 
 // Styles
 import Wrapper from './Search.styles';
+import { capitalize, polishPeriod } from 'helpers/strings';
 
 const Search: React.FC = () => {
   const [recorrencia, setRecorrencia] = useState<Recurrence>(1);
@@ -162,9 +164,26 @@ const Search: React.FC = () => {
                     onClick={() => handleRowClick(line.id)}
                   >
                     <td>{line.recurrence}</td>
-                    <td>{line.period}</td>
-                    <td>{line.day.join(',')}</td>
-                    <td>{line.hour.join(',')}</td>
+                    <td>
+                      {capitalize(
+                        line.period === 'manha' ? polishPeriod() : line.period,
+                      )}
+                    </td>
+                    <td>
+                      {line.day.map((day, id) => (
+                        <li className="td-list" key={id}>
+                          {capitalize(day)}
+                        </li>
+                      ))}
+                    </td>
+                    {/* <td>{moment(line.schedules[0]).format('ddd - DD/mm')}</td> */}
+                    <td>
+                      {line.hour.map((hour, id) => (
+                        <li className="td-list" key={id}>
+                          {hour}
+                        </li>
+                      ))}
+                    </td>
                     <td>{line.students.length}</td>
                   </tr>
                 );

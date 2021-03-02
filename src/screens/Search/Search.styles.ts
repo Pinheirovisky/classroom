@@ -33,10 +33,14 @@ const Wrapper = styled.div`
   table,
   th,
   td {
-    width: 600px;
+    width: 650px;
     border: 1px solid #000;
     border-collapse: collapse;
     text-align: center;
+
+    .td-list {
+      list-style-type: none;
+    }
   }
 
   tr.selected {
