@@ -1,27 +1,9 @@
 import styled from 'styled-components';
 
-interface WrapperProps {
-  modalOpen: boolean;
-}
-
-const Wrapper = styled.div<WrapperProps>`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  ${(props) =>
-    props.modalOpen &&
-    `&:after {
-    position: absolute;
-    content: '';
-    height: 100%;
-    width: 100%;
-    top: 0;
-    z-index: 1;
-    left: 0;
-    background-color: #000000b3;
-    animation: changeBG 1s;
-  }`}
 
   .buttons {
     width: 300px;
@@ -55,6 +37,11 @@ const Wrapper = styled.div<WrapperProps>`
     border: 1px solid #000;
     border-collapse: collapse;
     text-align: center;
+  }
+
+  tr.selected {
+    background-color: rgb(6, 89, 237);
+    color: #fff;
   }
 
   .line {
