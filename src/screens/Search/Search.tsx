@@ -2,40 +2,40 @@ import { Student } from 'new_backend/src/contracts';
 import { Classroom } from 'protocols/response';
 import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
+
+import { Recurrence, Period } from 'new_backend/src/contracts/Classroom';
+import { ScheduleDays } from 'new_backend/src/contracts/ScheduleDays';
+
 // Templates
 import { MainTemplate } from 'templates';
-import { mock } from '../../new_backend/src/index';
-// Containers
-import Modal from './containers/Modal/Modal';
+import { mock, main } from '../../new_backend/src/index';
+
 // Styles
 import Wrapper from './Search.styles';
 
-console.log(mock);
-
 const Search: React.FC = () => {
-  const [recorrencia, setRecorrencia] = useState<number>(1);
+  const [recorrencia, setRecorrencia] = useState<Recurrence>(1);
   const [hasSubscribed, setHasSubscribed] = useState<boolean>(false);
-  const [periodo, setPeriodo] = useState('manha');
-  const [weekDays, setWeekDays] = useState('sexta');
+  const [periodo, setPeriodo] = useState<Period>('manha');
+  const [weekDays, setWeekDays] = useState<ScheduleDays | ''>('');
 
   const [mockAux, setMockAux] = useState<Classroom[]>(mock);
-  const [entireList, setEntireList] = useState<Classroom[]>(mockAux);
+  const [searchList, setSearchList] = useState<Classroom[]>(mockAux);
 
-  const [modalOpen, setModalOpen] = useState(false);
+  const [classSelected, setClassSelected] = useState(0);
 
   const handleSubmit = (): void => {
     const splitedWeekDays = weekDays.split(',');
 
-    const updatedEntireList = mockAux.filter((item: Classroom) => {
-      return (
-        item.period === periodo &&
-        item.recurrence === recorrencia &&
-        item.day.includes(...splitedWeekDays)
-      );
-    });
+    // const updatedSearchedList = mockAux.filter((item: Classroom) => {
+    //   return (
+    //     item.period === periodo && item.recurrence === recorrencia
+    //     // item.day.includes(...splitedWeekDays)
+    //   );
+    // });
 
-    // const alou = main(recorrencia, periodo, splitedWeekDays, mock);
-    return setEntireList(updatedEntireList);
+    const result = main(recorrencia, periodo, splitedWeekDays, mock);
+    return setSearchList(result);
   };
 
   const addStudent = (lineId: number) => {
@@ -51,35 +51,34 @@ const Search: React.FC = () => {
       return newArray.push(line);
     });
 
-    toast.success('Adidionado com sucesso!', {
-      position: 'top-right',
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+    setClassSelected(lineId);
 
-    setEntireList(newArray);
+    toast.success('Adicionado com sucesso!');
+
+    setSearchList(newArray);
     setMockAux(newArray);
+  };
+
+  const handleReset = () => setSearchList(mockAux);
+
+  const handleRowClick = (lineId: number) => {
+    if (hasSubscribed) {
+      return toast.warning('Ja se inscreveu em uma turma');
+    }
+    setHasSubscribed(true);
+    addStudent(lineId);
   };
 
   return (
     <MainTemplate>
-      <ToastContainer />
-      <Wrapper modalOpen={modalOpen}>
+      <Wrapper>
+        <ToastContainer />
         <label htmlFor="frequency">
           Frequência de dias
           <select
             name="frequency"
-            value={recorrencia}
+            // value={recorrencia}
             onChange={(e) => {
-              if (parseInt(e.target.value) === 2) {
-                setWeekDays('segunda,quarta');
-              } else {
-                setWeekDays('sexta');
-              }
               setRecorrencia(parseInt(e.target.value));
             }}
           >
@@ -91,7 +90,7 @@ const Search: React.FC = () => {
           Período da aula
           <select
             name="dayPeriod"
-            value={periodo}
+            // value={periodo}
             onChange={(e) => setPeriodo(e.target.value)}
           >
             <option value="manha">Manhã</option>
@@ -103,9 +102,10 @@ const Search: React.FC = () => {
           Dias da semana
           <select
             name="weekDay"
-            value={weekDays}
+            // value={weekDays}
             onChange={(e) => setWeekDays(e.target.value)}
           >
+            <option value={['']}>Selecione</option>
             {recorrencia === 1 ? (
               <>
                 <option value={['sexta']}>Sexta</option>
@@ -125,7 +125,7 @@ const Search: React.FC = () => {
             Buscar
           </button>
 
-          <button type="button" onClick={() => setEntireList(mock)}>
+          <button type="button" onClick={handleReset}>
             Resetar
           </button>
         </div>
@@ -134,7 +134,7 @@ const Search: React.FC = () => {
           <table>
             <thead>
               <tr>
-                <th>Dias por semana</th>
+                <th>Frequência</th>
                 <th>Período</th>
                 <th>Dia da semana</th>
                 <th>Horário</th>
@@ -142,30 +142,13 @@ const Search: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {entireList.map((line) => {
-                console.log(line);
-
+              {searchList.map((line) => {
                 return (
                   <tr
                     key={line.id}
-                    className="line"
-                    onClick={() => {
-                      if (hasSubscribed) {
-                        toast.warning('Ja se inscreveu em uma turma', {
-                          position: 'top-right',
-                          autoClose: 5000,
-                          hideProgressBar: false,
-                          closeOnClick: true,
-                          pauseOnHover: true,
-                          draggable: true,
-                          progress: undefined,
-                        });
-
-                        return;
-                      }
-                      setHasSubscribed(true);
-                      addStudent(line.id);
-                    }}
+                    // eslint-disable-next-line prettier/prettier
+                    className={`line ${classSelected === line.id ? 'selected' : ''}`}
+                    onClick={() => handleRowClick(line.id)}
                   >
                     <td>{line.recurrence}</td>
                     <td>{line.period}</td>
