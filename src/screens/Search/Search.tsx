@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Student } from 'new_backend/src/contracts';
 import { Classroom } from 'protocols/response';
 import { toast, ToastContainer } from 'react-toastify';
-import moment from 'moment';
 
 // Backend
 import { Recurrence, Period } from 'new_backend/src/contracts/Classroom';
@@ -12,9 +11,12 @@ import { main, mockListClassRooms } from 'new_backend/src';
 // Templates
 import { MainTemplate } from 'templates';
 
+// Containers
+import Form from './containers/Form/Form';
+import Table from './containers/Table/Table';
+
 // Styles
 import Wrapper from './Search.styles';
-import { capitalize, polishPeriod } from 'helpers/strings';
 
 const Search: React.FC = () => {
   const [recorrencia, setRecorrencia] = useState<Recurrence>(1);
@@ -86,112 +88,20 @@ const Search: React.FC = () => {
     <MainTemplate>
       <Wrapper>
         <ToastContainer />
-        <label htmlFor="frequency">
-          Frequência de dias
-          <select
-            name="frequency"
-            // value={recorrencia}
-            onChange={(e) => {
-              setRecorrencia(parseInt(e.target.value));
-            }}
-          >
-            <option value={1}>1x por semana</option>
-            <option value={2}>2x por semana</option>
-          </select>
-        </label>
-        <label htmlFor="dayPeriod">
-          Período da aula
-          <select
-            name="dayPeriod"
-            // value={periodo}
-            onChange={(e) => setPeriodo(e.target.value)}
-          >
-            <option value="manha">Manhã</option>
-            <option value="tarde">Tarde</option>
-            <option value="noite">Noite</option>
-          </select>
-        </label>
-        <label htmlFor="weekDay">
-          Dias da semana
-          <select
-            name="weekDay"
-            // value={weekDays}
-            onChange={(e) => setWeekDays(e.target.value)}
-          >
-            <option value={['']}>Selecione</option>
-            {recorrencia === 1 ? (
-              <>
-                <option value={['sexta']}>Sexta</option>
-                <option value={['sabado']}>Sábado</option>
-              </>
-            ) : (
-              <>
-                <option value={['segunda', 'quarta']}>Segunda/Quarta</option>
-                <option value={['terca', 'quinta']}>Terça/Quinta</option>
-              </>
-            )}
-          </select>
-        </label>
+        <Form
+          recorrencia={recorrencia}
+          setRecorrencia={setRecorrencia}
+          setPeriodo={setPeriodo}
+          setWeekDays={setWeekDays}
+          handleSubmit={handleSubmit}
+          handleReset={handleReset}
+        />
 
-        <div className="buttons">
-          <button type="submit" onClick={handleSubmit}>
-            Buscar
-          </button>
-
-          <button type="button" onClick={handleReset}>
-            Resetar
-          </button>
-        </div>
-
-        <>
-          <table>
-            <thead>
-              <tr>
-                <th>Frequência</th>
-                <th>Período</th>
-                <th>Primeiro dia</th>
-                <th>Dia da semana</th>
-                <th>Horário</th>
-                <th>Alunos</th>
-              </tr>
-            </thead>
-            <tbody>
-              {searchList.map((line) => {
-                return (
-                  <tr
-                    key={line.id}
-                    // eslint-disable-next-line prettier/prettier
-                    className={`line ${classSelected === line.id ? 'selected' : ''} ${line.students.length === 12 ? 'max' : ''}`}
-                    onClick={() => handleRowClick(line.id)}
-                  >
-                    <td>{line.recurrence}</td>
-                    <td>
-                      {capitalize(
-                        line.period === 'manha' ? polishPeriod() : line.period,
-                      )}
-                    </td>
-                    <td>{moment(line.actual_schedule).format('DD/MM')}</td>
-                    <td>
-                      {line.day.map((day, id) => (
-                        <li className="td-list" key={id}>
-                          {capitalize(day)}
-                        </li>
-                      ))}
-                    </td>
-                    <td>
-                      {line.hour.map((hour, id) => (
-                        <li className="td-list" key={id}>
-                          {hour}
-                        </li>
-                      ))}
-                    </td>
-                    <td>{line.students.length}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </>
+        <Table
+          searchList={searchList}
+          classSelected={classSelected}
+          handleRowClick={handleRowClick}
+        />
       </Wrapper>
     </MainTemplate>
   );
