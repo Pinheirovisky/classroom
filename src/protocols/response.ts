@@ -27,4 +27,5 @@ export interface Classroom extends Omit<ScheduleReturn, 'days'> {
   skills: Skills[];
   day: string[];
   hour: string[];
+  is_new?: boolean;
 }

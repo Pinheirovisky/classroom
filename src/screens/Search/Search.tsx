@@ -30,7 +30,9 @@ const Search: React.FC = () => {
   const [searchList, setSearchList] = useState<Classroom[]>([]);
 
   const [classSelected, setClassSelected] = useState<number | null>(null);
-  const [currentClassroom, setCurrentClassroom] = useState<Classroom>(null);
+  const [currentClassroom, setCurrentClassroom] = useState<Classroom | null>(
+    null,
+  );
 
   useEffect(() => {
     const list = mockListClassRooms({
@@ -51,7 +53,35 @@ const Search: React.FC = () => {
     //   );
     // });
 
-    const result = main(recorrencia, periodo, splitedWeekDays, mockAux);
+    const result = [
+      ...main(recorrencia, periodo, splitedWeekDays, mockAux),
+      {
+        id: 2,
+        students: [],
+        recurrence: 1,
+        period: 'manha',
+        skills: [
+          's1',
+          's2',
+          's3',
+          'r1',
+          'r2',
+          'r3',
+          'w1',
+          'w2',
+          'w3',
+          'l1',
+          'l2',
+          'l3',
+        ],
+        day: ['2021-03-25 09:59:21'],
+        hour: ['08:00'],
+        is_new: true,
+      },
+    ];
+
+    // const isNewExists = result.find((item: Classroom) => item.is_new);
+
     return setSearchList(result);
   };
 
@@ -60,6 +90,9 @@ const Search: React.FC = () => {
 
     mockAux.map((line) => {
       if (line.id === lineId) {
+        if (line.is_new) {
+          //aqui seria a requisição de adicionar aluno
+        }
         newArray.push({
           ...line,
           students: [...line.students, 1] as Student[],
@@ -84,7 +117,7 @@ const Search: React.FC = () => {
 
   const handleRowClick = (lineId: number) => {
     if (hasSubscribed) {
-      return toast.warning('Ja se inscreveu em uma turma');
+      return toast.warning('Já se inscreveu em uma turma');
     }
     setHasSubscribed(true);
     addStudent(lineId);
