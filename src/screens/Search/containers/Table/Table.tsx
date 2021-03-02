@@ -26,6 +26,7 @@ const Table: React.FC<TableProps> = ({
           <th>Dia da semana</th>
           <th>Horário</th>
           <th>Alunos</th>
+          <th>Skill</th>
         </tr>
       </thead>
       <tbody>
@@ -59,6 +60,7 @@ const Table: React.FC<TableProps> = ({
                 ))}
               </td>
               <td>{line.students.length}</td>
+              <td>{line.actual_skill}</td>
             </tr>
           );
         })}

@@ -17,6 +17,8 @@ import Table from './containers/Table/Table';
 
 // Styles
 import Wrapper from './Search.styles';
+import { capitalize, polishPeriod } from 'helpers/strings';
+import moment from 'moment';
 
 const Search: React.FC = () => {
   const [recorrencia, setRecorrencia] = useState<Recurrence>(1);
@@ -25,10 +27,10 @@ const Search: React.FC = () => {
   const [weekDays, setWeekDays] = useState<ScheduleDays | ''>('');
 
   const [mockAux, setMockAux] = useState<Classroom[]>([]);
-
   const [searchList, setSearchList] = useState<Classroom[]>([]);
 
   const [classSelected, setClassSelected] = useState<number | null>(null);
+  const [currentClassroom, setCurrentClassroom] = useState<Classroom>(null);
 
   useEffect(() => {
     const list = mockListClassRooms({
@@ -58,7 +60,11 @@ const Search: React.FC = () => {
 
     mockAux.map((line) => {
       if (line.id === lineId) {
-        return newArray.push({
+        newArray.push({
+          ...line,
+          students: [...line.students, 1] as Student[],
+        });
+        return setCurrentClassroom({
           ...line,
           students: [...line.students, 1] as Student[],
         });
@@ -97,6 +103,69 @@ const Search: React.FC = () => {
           handleReset={handleReset}
         />
 
+        {currentClassroom && (
+          <>
+            <h2>Turma cadastrada</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Frequência</th>
+                  <th>Período</th>
+                  <th>Primeiro dia</th>
+                  <th>Dia da semana</th>
+                  <th>Horário</th>
+                  <th>Alunos</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  // eslint-disable-next-line prettier/prettier
+                  className="line"
+                  onClick={() => handleRowClick(currentClassroom.id)}
+                >
+                  <td>{currentClassroom.recurrence}</td>
+                  <td>
+                    {capitalize(
+                      currentClassroom.period === 'manha'
+                        ? polishPeriod()
+                        : currentClassroom.period,
+                    )}
+                  </td>
+                  <td>
+                    {moment(currentClassroom.actual_schedule).format('DD/MM')}
+                  </td>
+                  <td>
+                    {currentClassroom.day.map((day, id) => (
+                      <li className="td-list" key={id}>
+                        {capitalize(day)}
+                      </li>
+                    ))}
+                  </td>
+                  <td>
+                    {currentClassroom.hour.map((hour, id) => (
+                      <li className="td-list" key={id}>
+                        {hour}
+                      </li>
+                    ))}
+                  </td>
+                  <td>{currentClassroom.students.length}</td>
+                </tr>
+              </tbody>
+            </table>
+            <h3>
+              Link da primeria aula:
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href="https://wisereducacao.zoom.us/j/2359481695"
+              >
+                link
+              </a>
+            </h3>
+          </>
+        )}
+
+        <h2>Turmas abertas!</h2>
         <Table
           searchList={searchList}
           classSelected={classSelected}

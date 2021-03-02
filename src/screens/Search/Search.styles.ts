@@ -44,6 +44,10 @@ const Wrapper = styled.div`
   }
 
   tr {
+    &.max {
+      background-color: tomato;
+    }
+
     &.selected {
       background-color: rgb(6, 89, 237);
       color: #fff;
@@ -51,10 +55,6 @@ const Wrapper = styled.div`
       /* &:hover {
 
       } */
-    }
-
-    &.max {
-      background-color: tomato;
     }
   }
 
