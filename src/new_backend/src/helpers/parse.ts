@@ -10,6 +10,10 @@ export const parseDay = (number: number): string => {
       return 'quinta';
     case 5:
       return 'sexta';
+    case 6:
+      return 'sabado';
+    case 7:
+      return 'domingo';
     default:
       return 'NOT VALID';
   }

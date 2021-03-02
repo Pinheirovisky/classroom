@@ -1,39 +1,77 @@
 import { getRandomIndex } from '../random';
+import * as Contracts from '../../contracts';
+interface Schedule {
+  day: number;
+  hour: number;
+  period: string;
+}
 
-const days: Array<number[]> = [[1, 3], [2, 4], [5], [6]];
-const hours = [7, 8];
+const schedules: Array<Schedule[]> = [
+  [
+    { day: 1, hour: 7, period: 'manha' },
+    { day: 3, hour: 7, period: 'manha' },
+  ],
+  [
+    { day: 2, hour: 15, period: 'tarde' },
+    { day: 4, hour: 15, period: 'tarde' },
+  ],
+  [{ day: 5, hour: 7, period: 'manha' }],
+  [{ day: 6, hour: 7, period: 'manha' }],
+  //arrumar
+  [
+    { day: 5, hour: 7, period: 'noite' },
+    { day: 6, hour: 7, period: 'noite' },
+  ],
+  [{ day: 6, hour: 7, period: 'noite' }],
+  [{ day: 4, hour: 7, period: 'tarde' }],
+];
 
 export const sortSchedule = (
   recurrence: number,
+  periodRandom: Contracts.Period,
 ): {
   day1: number;
   hour1: number;
   day2?: number;
   hour2?: number;
 } => {
-  const hour = getRandomIndex(hours);
-  const day = getRandomIndex(days);
+  const scheduleFiltered = schedules.filter(
+    (item) => item.length === recurrence && item[0].period === periodRandom,
+  );
 
-  if (recurrence === 1) {
+  if (scheduleFiltered.length == 0) {
     return {
-      hour1: hour,
-      day1: day,
+      day1: 0,
+      hour1: 0,
+      day2: 0,
+      hour2: 0,
     };
   }
 
-  const hour2 = getRandomIndex(hours);
-  let day2 = getRandomIndex(days);
+  if (recurrence == 1) {
+    const randomDay = getRandomIndex(scheduleFiltered) as Schedule[];
 
-  if (day2 === day) {
-    while (day2 === day) {
-      day2 = getRandomIndex(days);
-    }
+    return {
+      day1: randomDay[0].day,
+      hour1: randomDay[0].hour,
+    };
+  }
+
+  if (recurrence == 2) {
+    const randomDay = getRandomIndex(scheduleFiltered) as Schedule[];
+
+    return {
+      day1: randomDay[0].day,
+      hour1: randomDay[0].hour,
+      day2: randomDay[1].day,
+      hour2: randomDay[1].hour,
+    };
   }
 
   return {
-    day1: day,
-    hour1: hour,
-    day2: day2,
-    hour2: hour2,
+    day1: 0,
+    hour1: 0,
+    day2: 0,
+    hour2: 0,
   };
 };

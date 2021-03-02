@@ -17,12 +17,16 @@ export type Skills =
 export type Period = 'manha' | 'tarde' | 'noite';
 export type Recurrence = 1 | 2;
 
-export interface Classroom extends Omit<ScheduleReturn, 'days'> {
+export interface Classroom
+  extends Omit<ScheduleReturn, 'days' | 'actual_skill_lesson'> {
   students: Student[];
   period: Period;
   skills: Skills[];
   day: string[];
   hour: string[];
+  schedules: Date[];
+  actual_schedule: Date;
+  actual_skill: Skills;
 }
 
 export interface ClassroomWithLevel extends Classroom {

@@ -89,21 +89,21 @@ function getPossibleClassrooms(
 }
 
 function checkClassroomEntry(classroom: Contracts.Classroom) {
-  if (classroom.students.length < 12 && classroom.skills[0].includes('1')) {
+  if (classroom.students.length < 12 && classroom.actual_skill.includes('1')) {
     return true;
   }
   return false;
 }
 
-function formatSchedule(classrooms: Contracts.ClassroomWithLevel[]) {
-  return classrooms.map(({ recurrence, id, day, hour }) => {
+function formatSchedule(
+  classrooms: Contracts.ClassroomWithLevel[],
+): Contracts.ScheduleReturn[] {
+  return classrooms.map(({ recurrence, id, day, hour, actual_skill }) => {
     return {
       recurrence,
       id,
-      days:
-        recurrence === 1
-          ? [new Date().getTime()]
-          : [new Date().getTime(), new Date().getTime()],
+      days: [day[0], hour[0]],
+      actual_skill: actual_skill,
     };
   });
 }
@@ -120,7 +120,7 @@ export function bo({
   period,
   day,
   classrooms,
-}: Contracts.BO): Contracts.ScheduleReturn[] {
+}: Contracts.BO): Contracts.ClassroomWithLevel[] {
   const possibleClassrooms = getPossibleClassrooms(
     recurrence,
     period,
@@ -130,7 +130,5 @@ export function bo({
   const filteredClassrooms = getFilteredClassrooms(possibleClassrooms);
   const sortedClassrooms = sortByLevel(filteredClassrooms);
   const limitedClassrooms = limitClassrooms(sortedClassrooms);
-  console.log(limitedClassrooms);
-
-  return formatSchedule(limitedClassrooms);
+  return limitedClassrooms;
 }

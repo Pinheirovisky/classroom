@@ -1,14 +1,15 @@
+import React, { useState, useEffect } from 'react';
 import { Student } from 'new_backend/src/contracts';
 import { Classroom } from 'protocols/response';
-import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 
+// Backend
 import { Recurrence, Period } from 'new_backend/src/contracts/Classroom';
 import { ScheduleDays } from 'new_backend/src/contracts/ScheduleDays';
+import { main, mockListClassRooms } from 'new_backend/src';
 
 // Templates
 import { MainTemplate } from 'templates';
-import { mock, main } from '../../new_backend/src/index';
 
 // Styles
 import Wrapper from './Search.styles';
@@ -19,10 +20,20 @@ const Search: React.FC = () => {
   const [periodo, setPeriodo] = useState<Period>('manha');
   const [weekDays, setWeekDays] = useState<ScheduleDays | ''>('');
 
-  const [mockAux, setMockAux] = useState<Classroom[]>(mock);
-  const [searchList, setSearchList] = useState<Classroom[]>(mockAux);
+  const [mockAux, setMockAux] = useState<Classroom[]>([]);
 
-  const [classSelected, setClassSelected] = useState(0);
+  const [searchList, setSearchList] = useState<Classroom[]>([]);
+
+  const [classSelected, setClassSelected] = useState<number | null>(null);
+
+  useEffect(() => {
+    const list = mockListClassRooms({
+      numberClassroom: 25,
+    });
+
+    setMockAux(list);
+    setSearchList(list);
+  }, []);
 
   const handleSubmit = (): void => {
     const splitedWeekDays = weekDays.split(',');
@@ -34,7 +45,7 @@ const Search: React.FC = () => {
     //   );
     // });
 
-    const result = main(recorrencia, periodo, splitedWeekDays, mock);
+    const result = main(recorrencia, periodo, splitedWeekDays, mockAux);
     return setSearchList(result);
   };
 
