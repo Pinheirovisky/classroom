@@ -8,7 +8,7 @@ import moment from 'moment';
 interface TableProps {
   searchList: Classroom[];
   classSelected: number | null;
-  handleRowClick: (lineId: number) => void;
+  handleRowClick: (lineId: Classroom) => void;
 }
 
 const Table: React.FC<TableProps> = ({
@@ -36,7 +36,7 @@ const Table: React.FC<TableProps> = ({
               key={line.id}
               // eslint-disable-next-line prettier/prettier
               className={`line ${classSelected === line.id ? 'selected' : ''} ${line.students.length === 12 ? 'max' : ''}`}
-              onClick={() => handleRowClick(line.id)}
+              onClick={() => handleRowClick(line)}
             >
               <td>{line.recurrence}</td>
               <td>
