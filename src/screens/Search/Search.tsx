@@ -56,7 +56,7 @@ const Search: React.FC = () => {
     const result = [
       ...main(recorrencia, periodo, splitedWeekDays, mockAux),
       {
-        id: 2,
+        id: 200,
         students: [],
         recurrence: 1,
         period: 'manha',
@@ -74,6 +74,7 @@ const Search: React.FC = () => {
           'l2',
           'l3',
         ],
+        actual_skill: 's1',
         day: ['2021-03-25 09:59:21'],
         hour: ['08:00'],
         is_new: true,
@@ -85,11 +86,23 @@ const Search: React.FC = () => {
     return setSearchList(result);
   };
 
-  const addStudent = (lineId: number) => {
+  const addStudent = (lineClassroom: Classroom) => {
     const newArray: Classroom[] = [];
 
+    if (lineClassroom.is_new) {
+      newArray.push({
+        ...lineClassroom,
+        students: [...lineClassroom.students, 1] as Student[],
+      });
+
+      setCurrentClassroom({
+        ...lineClassroom,
+        students: [...lineClassroom.students, 1] as Student[],
+      });
+    }
+
     mockAux.map((line) => {
-      if (line.id === lineId) {
+      if (line.id === lineClassroom.id) {
         if (line.is_new) {
           //aqui seria a requisição de adicionar aluno
         }
@@ -105,7 +118,7 @@ const Search: React.FC = () => {
       return newArray.push(line);
     });
 
-    setClassSelected(lineId);
+    setClassSelected(lineClassroom.id);
 
     toast.success('Adicionado com sucesso!');
 
@@ -115,12 +128,12 @@ const Search: React.FC = () => {
 
   const handleReset = () => setSearchList(mockAux);
 
-  const handleRowClick = (lineId: number) => {
+  const handleRowClick = (line: Classroom) => {
     if (hasSubscribed) {
       return toast.warning('Já se inscreveu em uma turma');
     }
     setHasSubscribed(true);
-    addStudent(lineId);
+    addStudent(line);
   };
 
   return (
@@ -154,7 +167,7 @@ const Search: React.FC = () => {
                 <tr
                   // eslint-disable-next-line prettier/prettier
                   className="line"
-                  onClick={() => handleRowClick(currentClassroom.id)}
+                  onClick={() => handleRowClick(currentClassroom)}
                 >
                   <td>{currentClassroom.recurrence}</td>
                   <td>
