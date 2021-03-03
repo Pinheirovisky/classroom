@@ -11,7 +11,7 @@ const App: React.FC = () => {
         <Route path="/classroom">
           <Classroom />
         </Route>
-        <Route path="/search">
+        <Route path="/">
           <Search />
         </Route>
       </Switch>
