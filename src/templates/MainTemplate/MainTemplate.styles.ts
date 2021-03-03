@@ -1,17 +1,21 @@
 import styled from 'styled-components';
 
-const Wrapper = styled.div`
+export const Container = styled.div`
+  background-color: rgb(5, 21, 36);
+  height: 100vh;
+`;
+
+export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px;
   align-items: center;
   width: calc(100% - 40px);
-  height: calc(100vh - 40px);
-  background-color: rgb(5, 21, 36);
 
   .main {
     background-color: #fff;
     width: 750px;
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -35,5 +39,3 @@ const Wrapper = styled.div`
     }
   }
 `;
-
-export default Wrapper;
